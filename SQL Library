@@ -1,0 +1,51 @@
+-- Create a database for the library
+CREATE DATABASE IF NOT EXISTS Library;
+USE Library;
+
+-- Create a table for authors
+CREATE TABLE IF NOT EXISTS Authors (
+    AuthorID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    BirthYear INT
+);
+
+-- Create a table for books
+CREATE TABLE IF NOT EXISTS Books (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(100),
+    AuthorID INT,
+    PublicationYear INT,
+    FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID)
+);
+
+-- Insert data into Authors table
+INSERT INTO Authors (AuthorID, FirstName, LastName, BirthYear) VALUES
+    (1, 'Jane', 'Doe', 1980),
+    (2, 'John', 'Smith', 1975),
+    (3, 'Alice', 'Jones', 1990);
+
+-- Insert data into Books table
+INSERT INTO Books (BookID, Title, AuthorID, PublicationYear) VALUES
+    (101, 'The SQL Journey', 1, 2020),
+    (102, 'Database Basics', 2, 2018),
+    (103, 'Data Science 101', 3, 2022);
+
+-- Query to retrieve book information along with author details
+SELECT Books.BookID, Books.Title, Authors.FirstName, Authors.LastName, Books.PublicationYear
+FROM Books
+JOIN Authors ON Books.AuthorID = Authors.AuthorID;
+
+-- Update the publication year of a book
+UPDATE Books
+SET PublicationYear = 2021
+WHERE BookID = 101;
+
+-- Query to verify the update
+SELECT * FROM Books WHERE BookID = 101;
+
+-- Delete a book
+DELETE FROM Books WHERE BookID = 103;
+
+-- Query to verify the deletion
+SELECT * FROM Books;
